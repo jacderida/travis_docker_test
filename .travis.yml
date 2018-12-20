@@ -1,0 +1,16 @@
+env:
+  global:
+    - RUST_BACKTRACE=1
+    - RUSTFLAGS="-C opt-level=2 -C codegen-units=8"
+    - PATH=$PATH:$HOME/.cargo/bin
+language: rust
+rust:
+  - 1.29.1
+stages:
+  - build
+jobs:
+  include:
+    - stage: build
+      before_script: docker pull jacderida/travis_docker_test:0.0.1
+      script: docker run jacderida/travis_docker_test:0.0.1 cargo test 
+      os: linux
