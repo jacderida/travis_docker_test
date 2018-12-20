@@ -12,6 +12,12 @@ mod lib {
             let result = add(1, 2);
             assert_eq!(3, result);
         }
+
+        #[test]
+        fn add_same_params_in_different_order_produces_same_result() {
+            let result = add(1, 2);
+            assert_eq!(3, result);
+        }
     }
 }
 
