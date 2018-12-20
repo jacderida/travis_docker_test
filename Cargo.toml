@@ -1,0 +1,6 @@
+[package]
+name = "travis_docker_test"
+version = "0.1.0"
+authors = ["Chris O'Neil <chris.oneil@gmail.com>"]
+
+[dependencies]
