@@ -9,4 +9,4 @@ RUN apt-get update -y && \
 WORKDIR /usr/src/adder
 COPY . .
 
-RUN cargo build
+RUN cargo build --target-dir /target

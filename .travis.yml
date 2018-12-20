@@ -12,5 +12,5 @@ jobs:
   include:
     - stage: build
       before_script: docker pull jacderida/travis_docker_test:0.0.1
-      script: docker run jacderida/travis_docker_test:0.0.1 cargo test 
+      script: docker run jacderida/travis_docker_test:0.0.1 cargo test --target-dir /target
       os: linux
