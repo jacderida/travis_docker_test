@@ -20,5 +20,6 @@ jobs:
           if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
             echo "running on linux";
             echo "1" && false;
+            echo "2" && true;
           fi;
       os: linux
