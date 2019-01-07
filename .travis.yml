@@ -14,3 +14,11 @@ jobs:
       before_script: docker pull jacderida/travis_docker_test:0.0.1
       script: docker run --rm --name arithmetic_app -v "$PWD":/usr/src/adder jacderida/travis_docker_test:0.0.1 cargo test --target-dir /target
       os: linux
+    - stage: test
+      script:
+        - set -e;
+          if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+            echo "running on linux";
+            echo "1" && false;
+          fi;
+      os: linux
