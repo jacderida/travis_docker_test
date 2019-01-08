@@ -13,7 +13,7 @@ jobs:
     - stage: build
       before_script:
         - sudo apt-get install -y tree
-        - docker pull jacderida/travis_docker_test:0.0.1
+        - docker pull jacderida/travis_docker_test:0.0.2
       script:
         - docker run --name arithmetic_app -v "$PWD":/usr/src/adder -u 2000:2000 jacderida/travis_docker_test:0.0.1 cargo test --target-dir /target
         - docker cp arithmetic_app:/target .
