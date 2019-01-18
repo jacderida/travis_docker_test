@@ -27,7 +27,7 @@ jobs:
         - mkdir artifacts
         - echo "contents" > artifacts/artifact.so
       before_cache:
-        - tar -C artifacts -zcvf $TRAVIS_BUILD_NUMBER-scl-linux-x86_64.tar.gz
+        - tar -C artifacts -zcvf $TRAVIS_BUILD_NUMBER-scl-linux-x86_64.tar.gz .
         - rm -rf artifacts/**
         - mv $TRAVIS_BUILD_NUMBER-scl-linux-x86_64.tar.gz ~/.artifacts-linux-real
       os: linux
@@ -37,7 +37,7 @@ jobs:
         - mkdir artifacts
         - echo "contents" > artifacts/artifact.so
       before_cache:
-        - tar -C artifacts -zcvf $TRAVIS_BUILD_NUMBER-scl-mock-linux-x86_64.tar.gz
+        - tar -C artifacts -zcvf $TRAVIS_BUILD_NUMBER-scl-mock-linux-x86_64.tar.gz .
         - rm -rf artifacts/**
         - mv $TRAVIS_BUILD_NUMBER-scl-mock-linux-x86_64.tar.gz ~/.artifacts-linux-mock
       os: linux
@@ -47,7 +47,7 @@ jobs:
         - mkdir artifacts
         - echo "contents" > artifacts/artifact.so
       before_cache:
-        - tar -C artifacts -zcvf $TRAVIS_BUILD_NUMBER-scl-mock-osx-x86_64.tar.gz
+        - tar -C artifacts -zcvf $TRAVIS_BUILD_NUMBER-scl-mock-osx-x86_64.tar.gz .
         - rm -rf artifacts/**
         - mv $TRAVIS_BUILD_NUMBER-scl-mock-osx-x86_64.tar.gz ~/.artifacts-osx-mock
       os: osx
@@ -57,7 +57,7 @@ jobs:
         - mkdir artifacts
         - echo "contents" > artifacts/artifact.so
       before_cache:
-        - tar -C artifacts -zcvf $TRAVIS_BUILD_NUMBER-scl-osx-x86_64.tar.gz
+        - tar -C artifacts -zcvf $TRAVIS_BUILD_NUMBER-scl-osx-x86_64.tar.gz .
         - rm -rf artifacts/**
         - mv $TRAVIS_BUILD_NUMBER-scl-osx-x86_64.tar.gz ~/.artifacts-osx-real
       os: osx
