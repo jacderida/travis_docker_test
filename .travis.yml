@@ -16,9 +16,6 @@ cache:
     - "${HOME}/.cache/master"
     - "${HOME}/.artifacts-linux-real"
     - "${HOME}/.artifacts-linux-mock"
-    - "${HOME}/.artifacts-osx-real"
-    - "${HOME}/.artifacts-osx-mock"
-    - "${HOME}/.artifacts-bct"
 jobs:
   include:
     - stage: build
@@ -44,20 +41,22 @@ jobs:
 
     - stage: tests
       name: "mock tests"
-      before_script: true
       script:
         - ls -al ~/.artifacts-linux-real/
         - ls -al ~/.artifacts-linux-mock/
-        - ls -al ~/.artifacts-osx-real/
-        - ls -al ~/.artifacts-osx-mock/
       os: linux
     - stage: tests
       name: "integration tests"
       script:
         - ls -al ~/.artifacts-linux-real/
         - ls -al ~/.artifacts-linux-mock/
-        - ls -al ~/.artifacts-osx-real/
-        - ls -al ~/.artifacts-osx-mock/
       before_cache:
         - echo "contents" > ~/.artifacts-linux-mock/artifacts.zip
+      os: linux
+
+    - stage: deploy
+      name: "package and deploy artifacts"
+      script:
+        - ls -al ~/.artifacts-linux-real/
+        - ls -al ~/.artifacts-linux-mock/
       os: linux
