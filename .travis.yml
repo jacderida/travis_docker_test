@@ -8,16 +8,94 @@ rust:
   - 1.29.1
 stages:
   - build
+  - test
+  - deploy
+cache:
+  cargo: true
+  directories:
+    - "${HOME}/.cache/master"
+    - "${HOME}/.artifacts-linux-real"
+    - "${HOME}/.artifacts-linux-mock"
+    - "${HOME}/.artifacts-osx-real"
+    - "${HOME}/.artifacts-osx-mock"
+    - "${HOME}/.artifacts-bct"
 jobs:
   include:
     - stage: build
-      before_script:
-        - sudo apt-get install -y tree
-        - docker pull jacderida/travis_docker_test:0.0.2
+      name: "build real"
       script:
-        - docker run --name arithmetic_app -v "$PWD":/usr/src/adder -u 2000:2000 jacderida/travis_docker_test:0.0.2 cargo test --target-dir /target
-        - docker cp arithmetic_app:/target .
-        - id
-        - tree target
-        - ls -al target/debug
+        - mkdir artifacts
+        - echo "contents" > artifacts/artifact.so
+      before_cache:
+        - tar -C artifacts -zcvf $TRAVIS_BUILD_NUMBER-scl-linux-x86_64.tar.gz
+        - rm -rf artifacts/**
+        - mv $TRAVIS_BUILD_NUMBER-scl-linux-x86_64.tar.gz ~/.artifacts-linux-real
       os: linux
+    - stage: build
+      name: "build mock"
+      script:
+        - mkdir artifacts
+        - echo "contents" > artifacts/artifact.so
+      before_cache:
+        - tar -C artifacts -zcvf $TRAVIS_BUILD_NUMBER-scl-mock-linux-x86_64.tar.gz
+        - rm -rf artifacts/**
+        - mv $TRAVIS_BUILD_NUMBER-scl-mock-linux-x86_64.tar.gz ~/.artifacts-linux-mock
+      os: linux
+    - stage: build
+      name: "build mock"
+      script:
+        - mkdir artifacts
+        - echo "contents" > artifacts/artifact.so
+      before_cache:
+        - tar -C artifacts -zcvf $TRAVIS_BUILD_NUMBER-scl-mock-osx-x86_64.tar.gz
+        - rm -rf artifacts/**
+        - mv $TRAVIS_BUILD_NUMBER-scl-mock-osx-x86_64.tar.gz ~/.artifacts-osx-mock
+      os: osx
+    - stage: build
+      name: "build real"
+      script:
+        - mkdir artifacts
+        - echo "contents" > artifacts/artifact.so
+      before_cache:
+        - tar -C artifacts -zcvf $TRAVIS_BUILD_NUMBER-scl-osx-x86_64.tar.gz
+        - rm -rf artifacts/**
+        - mv $TRAVIS_BUILD_NUMBER-scl-osx-x86_64.tar.gz ~/.artifacts-osx-real
+      os: osx
+
+    - stage: tests
+      name: "mock tests"
+      before_script: true
+      script:
+        - ls -al ~/.artifacts-linux-real/
+        - ls -al ~/.artifacts-linux-mock/
+        - ls -al ~/.artifacts-osx-real/
+        - ls -al ~/.artifacts-osx-mock/
+      os: linux
+    - stage: tests
+      name: "integration tests"
+      script:
+        - ls -al ~/.artifacts-linux-real/
+        - ls -al ~/.artifacts-linux-mock/
+        - ls -al ~/.artifacts-osx-real/
+        - ls -al ~/.artifacts-osx-mock/
+      before_cache:
+        - echo "contents" > ~/.artifacts-linux-mock/artifacts.zip
+      os: linux
+    - stage: build
+      name: "build real"
+      script:
+        - ls -al ~/.artifacts-linux-real/
+        - ls -al ~/.artifacts-linux-mock/
+        - ls -al ~/.artifacts-osx-real/
+        - ls -al ~/.artifacts-osx-mock/
+      before_cache:
+        - echo "contents" > ~/.artifacts-osx-real/artifacts.zip
+      os: osx
+    - stage: build
+      name: "build mock"
+      script:
+        - ls -al ~/.artifacts-linux-real/
+        - ls -al ~/.artifacts-linux-mock/
+        - ls -al ~/.artifacts-osx-real/
+        - ls -al ~/.artifacts-osx-mock/
+      os: osx
