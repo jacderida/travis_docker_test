@@ -8,7 +8,7 @@ rust:
   - 1.29.1
 stages:
   - build
-  - test
+  - tests
   - deploy
 cache:
   cargo: true
