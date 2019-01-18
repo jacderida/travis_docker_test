@@ -41,26 +41,6 @@ jobs:
         - rm -rf artifacts/**
         - mv $TRAVIS_BUILD_NUMBER-scl-mock-linux-x86_64.tar.gz ~/.artifacts-linux-mock
       os: linux
-    - stage: build
-      name: "build mock"
-      script:
-        - mkdir artifacts
-        - echo "contents" > artifacts/artifact.so
-      before_cache:
-        - tar -C artifacts -zcvf $TRAVIS_BUILD_NUMBER-scl-mock-osx-x86_64.tar.gz .
-        - rm -rf artifacts/**
-        - mv $TRAVIS_BUILD_NUMBER-scl-mock-osx-x86_64.tar.gz ~/.artifacts-osx-mock
-      os: osx
-    - stage: build
-      name: "build real"
-      script:
-        - mkdir artifacts
-        - echo "contents" > artifacts/artifact.so
-      before_cache:
-        - tar -C artifacts -zcvf $TRAVIS_BUILD_NUMBER-scl-osx-x86_64.tar.gz .
-        - rm -rf artifacts/**
-        - mv $TRAVIS_BUILD_NUMBER-scl-osx-x86_64.tar.gz ~/.artifacts-osx-real
-      os: osx
 
     - stage: tests
       name: "mock tests"
