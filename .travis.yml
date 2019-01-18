@@ -81,21 +81,3 @@ jobs:
       before_cache:
         - echo "contents" > ~/.artifacts-linux-mock/artifacts.zip
       os: linux
-    - stage: build
-      name: "build real"
-      script:
-        - ls -al ~/.artifacts-linux-real/
-        - ls -al ~/.artifacts-linux-mock/
-        - ls -al ~/.artifacts-osx-real/
-        - ls -al ~/.artifacts-osx-mock/
-      before_cache:
-        - echo "contents" > ~/.artifacts-osx-real/artifacts.zip
-      os: osx
-    - stage: build
-      name: "build mock"
-      script:
-        - ls -al ~/.artifacts-linux-real/
-        - ls -al ~/.artifacts-linux-mock/
-        - ls -al ~/.artifacts-osx-real/
-        - ls -al ~/.artifacts-osx-mock/
-      os: osx
