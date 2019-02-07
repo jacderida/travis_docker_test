@@ -3,6 +3,7 @@ env:
     - RUST_BACKTRACE=1
     - RUSTFLAGS="-C opt-level=2 -C codegen-units=8"
     - PATH=$PATH:$HOME/.cargo/bin
+    - TEST=foo
 language: rust
 rust:
   - 1.29.1
@@ -12,51 +13,23 @@ stages:
   - deploy
 cache:
   cargo: true
-  directories:
-    - "${HOME}/.cache/master"
-    - "${HOME}/.artifacts-linux-real"
-    - "${HOME}/.artifacts-linux-mock"
 jobs:
   include:
     - stage: build
       name: "build real"
       script:
         - mkdir artifacts
-        - echo "contents" > artifacts/artifact.so
-      before_cache:
-        - tar -C artifacts -zcvf $TRAVIS_BUILD_NUMBER-scl-linux-x86_64.tar.gz .
-        - rm -rf artifacts/**
-        - mv $TRAVIS_BUILD_NUMBER-scl-linux-x86_64.tar.gz ~/.artifacts-linux-real
-      os: linux
-    - stage: build
-      name: "build mock"
-      script:
-        - mkdir artifacts
-        - echo "contents" > artifacts/artifact.so
-      before_cache:
-        - tar -C artifacts -zcvf $TRAVIS_BUILD_NUMBER-scl-mock-linux-x86_64.tar.gz .
-        - rm -rf artifacts/**
-        - mv $TRAVIS_BUILD_NUMBER-scl-mock-linux-x86_64.tar.gz ~/.artifacts-linux-mock
+        - TEST=bar
       os: linux
 
     - stage: tests
       name: "mock tests"
       script:
-        - ls -al ~/.artifacts-linux-real/
-        - ls -al ~/.artifacts-linux-mock/
-      os: linux
-    - stage: tests
-      name: "integration tests"
-      script:
-        - ls -al ~/.artifacts-linux-real/
-        - ls -al ~/.artifacts-linux-mock/
-      before_cache:
-        - echo "contents" > ~/.artifacts-linux-mock/artifacts.zip
+        - echo $TEST
       os: linux
 
     - stage: deploy
       name: "package and deploy artifacts"
       script:
-        - ls -al ~/.artifacts-linux-real/
-        - ls -al ~/.artifacts-linux-mock/
+        - echo $TEST
       os: linux
